@@ -2,11 +2,21 @@ import {useParams} from "react-router-dom"
 import {useState, useEffect} from "react"
 import { Container, Typography, Rating, Box, CircularProgress } from "@mui/material";
 
+interface MovieDetail {
+    Title: string,
+    Year: string,
+    Released: string,
+    Runtime: string,
+    Genre: string,
+    imdbRating: string,
+    Plot: string
+}
+
 function Movie() {
     
     const {id} = useParams()
 
-    const [movie, setMovie] = useState({
+    const [movie, setMovie] = useState<MovieDetail>({
         Title:"",
         Year:"",
         Released:"",

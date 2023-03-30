@@ -47,22 +47,19 @@ function Home() {
             <Container sx={{ py: 8 }} maxWidth="md">
                 {!show ? <Container sx={{display: 'flex',justifyContent: 'center',alignItems: 'center',height: '100vh'}}><CircularProgress/></Container> :
                 <Grid container spacing={4}>
-                    {movies.map(({Title,Year,imdbID,Type,Poster}:{Title:string,Year:string,imdbID:string,Type:string,Poster:string}) => (
+                    {movies.map(({Title,Year,imdbID,Type,Poster}:Movie) => (
                     <Grid item key={Title} xs={12} sm={6} md={4}>
                         <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                        {Poster !== "N/A" ?
                         <CardMedia
                             component="img"
-                            sx={{
-                            // 16:9
-                            pt: '56.25%',
-                            }}
                             image={Poster}
-                            alt="random"
-                        />
+                            alt="Poster"
+                        /> : null }
                         <CardContent sx={{ flexGrow: 1 }}>
                             <Typography gutterBottom variant="h5" component="h2">{Title}</Typography>
-                            <Typography>{Year}</Typography>
-                            <Typography>{Type}</Typography>
+                            <Typography>Release date: {Year}</Typography>
+                            <Typography>Type: {Type}</Typography>
                         </CardContent>
                         <CardActions>
                             <Button size="small" onClick={() => navigate(`/movie/${imdbID}`)}>View</Button>
