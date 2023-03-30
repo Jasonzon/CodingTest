@@ -1,8 +1,6 @@
 import {useParams} from "react-router-dom"
-import Container from "@mui/material/Container"
 import {useState, useEffect} from "react"
-import Box from "@mui/material/Box"
-import Typography from "@mui/material/Typography"
+import { Container, Typography, Rating, Box, CircularProgress } from "@mui/material";
 
 function Movie() {
     
@@ -18,9 +16,13 @@ function Movie() {
         Plot:""
     })
 
+
+    const [show, setShow] = useState<boolean>(false)
+
     async function getMovie() {
         const res = await fetch(`http://www.omdbapi.com/?apikey=d37dede0&i=${id}`)
         const parseRes = await res.json()
+        setShow(true)
         setMovie(parseRes)
     }
 
@@ -29,15 +31,27 @@ function Movie() {
     },[])
 
     return (
-        <Container>
-            <Typography component="h2">{movie.Title}</Typography>
-            <Typography component="h4">{movie.Year}</Typography>
-            <Typography component="h4">{movie.Released}</Typography>
-            <Typography component="h4">{movie.Runtime}</Typography>
-            <Typography component="h4">{movie.Genre}</Typography>
-            <Typography component="h4">{movie.Plot}</Typography>
-            <Typography component="h4">{movie.imdbRating}</Typography>
-        </Container>
+        <Container> {!show ? <Container sx={{display: 'flex',justifyContent: 'center',alignItems: 'center',height: '100vh'}}><CircularProgress/></Container> : 
+        <Container maxWidth="md" style={{marginTop:"1rem"}}>
+            <Typography variant="h4" style={{textAlign:"center"}}>{movie.Title}</Typography>
+            <Box display="flex" alignItems="center">
+                <Typography>📅</Typography>
+                <Typography variant="subtitle1">{movie.Year}</Typography>
+            </Box>
+            <Box display="flex" alignItems="center">
+                <Typography>⏰</Typography>
+                <Typography variant="subtitle1">{movie.Runtime}</Typography>
+            </Box>
+            <Box display="flex" alignItems="center">
+                <Typography>🎬</Typography>
+                <Typography variant="subtitle1">{movie.Genre}</Typography>
+            </Box>
+            <Box display="flex" alignItems="center">
+                <Typography>📈</Typography>
+                <Rating name="imdb-rating" value={Number(movie.imdbRating) / 2} precision={0.1} readOnly />
+            </Box>
+            <Typography variant="body1">{movie.Plot}</Typography>
+        </Container> } </Container>
     )
 }
 
